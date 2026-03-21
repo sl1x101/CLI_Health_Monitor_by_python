@@ -1,7 +1,7 @@
 import os
 import platform
 import shutil
-
+import psutil
 # --- [P] PROCESS & [O] OUTPUT ---
 
 def show_os_info():
@@ -26,6 +26,11 @@ def clear_screen():
     """ฟังก์ชันล้างหน้าจอ (สำหรับ Windows และ Linux)"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
+def show_ram_info():
+    #get info ram
+    ram = psutil.virtual_memory()
+    
+    
 # --- [I] INPUT ---
 
 def main():
