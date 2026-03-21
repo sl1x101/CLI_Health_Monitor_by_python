@@ -29,13 +29,14 @@ def clear_screen():
 def show_ram_info():
     #get info ram
     ram = psutil.virtual_memory()
-    
+    gb = 1024 ** 3
+    print(f"🧠 RAM: มีทั้งหมด {ram.total // gb} GB | ว่างอยู่ {ram.available // gb} GB | ใช้ไป {ram.percent}%")
     
 # --- [I] INPUT ---
 
 def main():
     print("=== 🚀 CLI Health Monitor (Monk Mode) ===")
-    print("คำสั่งที่ใช้ได้: os, disk, all, exit , clear")
+    print("คำสั่งที่ใช้ได้: os, disk, all, exit, clear, ram, all")
     
     while True:
         # รับค่าจากคีย์บอร์ด, ตัดช่องว่างหัวท้าย, และแปลงเป็นตัวพิมพ์เล็ก
@@ -60,9 +61,15 @@ def main():
             clear_screen()
             print("=== 🚀 CLI Health Monitor (Monk Mode) ===")
             print("คำสั่งที่ใช้ได้: os, disk, all, exit , clear")
+        elif cmd == "ram":
+            show_ram_info() 
+        elif cmd == "all":
+            show_os_info()
+            show_disk_info()
+            show_ram_info()
         else:
             print("❌ คำสั่งไม่ถูกต้อง! กรุณาพิมพ์ os, disk, all หรือ exit")
 
-# จุด Start ของโปรแกรม
+#  Start program 
 if __name__ == "__main__":
     main()
