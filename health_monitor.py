@@ -12,18 +12,18 @@ def show_os_info():
 
 def show_disk_info():
     """ฟังก์ชันดึงข้อมูลพื้นที่ความจุในเครื่อง"""
-    # เช็คว่าเป็น Windows หรือ Linux จะได้เลือกโฟลเดอร์หลักถูก
+    # check root path based on OS
     root_path = "C:\\" if platform.system() == "Windows" else "/"
     
-    # ดึงข้อมูลจาก OS (หน่วยเป็น Bytes)
+    #get disk usage
     total, used, free = shutil.disk_usage(root_path)
     
-    # แปลง Bytes เป็น Gigabytes (GB)
+    #convert to GB
     gb = 1024 ** 3  
     print(f"💾 Disk [{root_path}]: ว่าง {free // gb} GB (จากทั้งหมด {total // gb} GB)")
 
 def clear_screen():
-    """ฟังก์ชันล้างหน้าจอ (สำหรับ Windows และ Linux)"""
+    """fuction clear console screen"""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def show_ram_info():
@@ -35,40 +35,35 @@ def show_ram_info():
 # --- [I] INPUT ---
 
 def main():
-    print("=== 🚀 CLI Health Monitor (Monk Mode) ===")
+    print("\n"+"="*30)
+    print("🚀 CLI Health Monitor")
     print("คำสั่งที่ใช้ได้: os, disk, all, exit, clear, ram, all")
+    print("="*30)
+    # all commands in a dictionary for easy routing
+    commands = {
+        "os":show_os_info,
+        "disk":show_disk_info,
+        "ram":show_ram_info,
+        "clear":clear_screen,
+        "all":[show_os_info,show_disk_info,show_ram_info]
+    }
     
     while True:
-        # รับค่าจากคีย์บอร์ด, ตัดช่องว่างหัวท้าย, และแปลงเป็นตัวพิมพ์เล็ก
+        #input command
         cmd = input("\nmonitor> ").strip().lower()
         
-        # Guard Clause: ถ้ากด Enter เปล่าๆ ให้ข้ามไปเริ่มลูปใหม่ทันที
+        # Guard Clause: empty input
         if not cmd:
-            continue
-            
-        # เช็คคำสั่ง (Routing)
-        if cmd == "exit":
-            print("👋 ปิดระบบ...")
+            continue 
+                  
+        # (Routing)
+        if cmd in commands:
+            commands[cmd]()
+        elif cmd == "exit":
+            print("👋 ออกโปรแกรมแล้วนะครับ! สวัสดีครับ!")
             break
-        elif cmd == "os":
-            show_os_info()
-        elif cmd == "disk":
-            show_disk_info()
-        elif cmd == "all":
-            show_os_info()
-            show_disk_info()
-        elif cmd == "clear":
-            clear_screen()
-            print("=== 🚀 CLI Health Monitor (Monk Mode) ===")
-            print("คำสั่งที่ใช้ได้: os, disk, all, exit , clear")
-        elif cmd == "ram":
-            show_ram_info() 
-        elif cmd == "all":
-            show_os_info()
-            show_disk_info()
-            show_ram_info()
         else:
-            print("❌ คำสั่งไม่ถูกต้อง! กรุณาพิมพ์ os, disk, all หรือ exit")
+            print("คำสั่งไม่ถูกต้อง! ลองใหม่อีกครั้งนะครับ!")
 
 #  Start program 
 if __name__ == "__main__":
