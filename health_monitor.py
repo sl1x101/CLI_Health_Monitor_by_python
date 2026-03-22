@@ -5,13 +5,12 @@ import psutil
 # --- [P] PROCESS & [O] OUTPUT ---
 
 def show_os_info():
-    """ฟังก์ชันดึงข้อมูล OS และ CPU"""
+    """fuction pull CPU info"""
     my_os = platform.system()
     print(f"🖥️  OS: {my_os} {platform.release()}")
     print(f"⚙️  CPU Cores: {os.cpu_count()} Cores")
 
 def show_disk_info():
-    """ฟังก์ชันดึงข้อมูลพื้นที่ความจุในเครื่อง"""
     # check root path based on OS
     root_path = "C:\\" if platform.system() == "Windows" else "/"
     
