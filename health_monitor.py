@@ -25,6 +25,7 @@ def show_disk_info():
 def clear_screen():
     """fuction clear console screen"""
     os.system('cls' if os.name == 'nt' else 'clear')
+    menu()
 
 def show_ram_info():
     #get info ram
@@ -32,22 +33,28 @@ def show_ram_info():
     gb = 1024 ** 3
     print(f"🧠 RAM: มีทั้งหมด {ram.total // gb} GB | ว่างอยู่ {ram.available // gb} GB | ใช้ไป {ram.percent}%")
     
-# --- [I] INPUT ---
-
-def main():
+def menu():
     print("\n"+"="*30)
     print("🚀 CLI Health Monitor")
-    print("คำสั่งที่ใช้ได้: os, disk, all, exit, clear, ram, all")
-    print("="*30)
+    print("commands: os, disk, exit, clear, ram, all")
+    print("="*30)    
+
+def show_all_functions():
+    show_os_info()
+    show_disk_info()
+    show_ram_info()    
+    
+commands = {
     # all commands in a dictionary for easy routing
-    commands = {
         "os":show_os_info,
         "disk":show_disk_info,
         "ram":show_ram_info,
         "clear":clear_screen,
-        "all":[show_os_info,show_disk_info,show_ram_info]
-    }
-    
+        "all":show_all_functions,
+}
+          
+def main():
+    clear_screen()
     while True:
         #input command
         cmd = input("\nmonitor> ").strip().lower()
